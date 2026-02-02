@@ -14,5 +14,6 @@ namespace ChineseRaffleApi.Services.DI
         Task<IEnumerable<GetDonorDto>> GetDonorByNameAsync(string name);
         Task<IEnumerable<GetDonorDto>> GetDonorByEmailAsync(string email);
         Task<GetDonorDto?> GetDonorByGiftAsync(int giftId);
+        Task<PagedResult<GetDonorDto>> GetPagedDonorsAsync(int pageNumber, int pageSize);
     }
 }

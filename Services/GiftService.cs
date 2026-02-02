@@ -20,17 +20,32 @@ namespace ChineseRaffleApi.Services
             _mapper = mapper;
         }
 
+        public async Task<bool> IsRaffleLocked()
+        {
+            return await _giftRepo.IsRaffleLocked();
+        }
+
+
+
         public async Task<GetGiftDto?> GetGiftByIdAsync(int id)
         {
             var gift =  await _giftRepo.GetGiftByIdAsync(id);
             return _mapper.Map<GetGiftDto>(gift);
         }
 
-        public async Task<IEnumerable<GetGiftDto>> GetAllGiftsAsync()
+        public async Task<PagedResult<GetGiftDto>> GetAllGiftsAsync(int pageNumber, int pageSize)
         {
-            var gifts = await _giftRepo.GetAllGiftsAsync();
-            return _mapper.Map<List<GetGiftDto>>(gifts);
+            var pagedGifts = await _giftRepo.GetAllGiftsAsync(pageNumber, pageSize);
+
+            return new PagedResult<GetGiftDto>
+            {
+                TotalCount = pagedGifts.TotalCount,
+                PageNumber = pagedGifts.PageNumber,
+                PageSize = pagedGifts.PageSize,
+                Items = _mapper.Map<List<GetGiftDto>>(pagedGifts.Items)
+            };
         }
+     
 
         public async Task<int> AddGiftAsync(AddGiftDto gift)
         {

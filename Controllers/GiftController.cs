@@ -22,6 +22,14 @@ namespace ChineseRaffleApi.Controllers
             _giftService = giftService;
             _logger = logger;
         }
+
+        [HttpGet("is-locked")]
+        public async Task<ActionResult<bool>> IsRaffleLocked()
+        {
+            bool isLocked = await _giftService.IsRaffleLocked();
+
+            return Ok(isLocked);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<GetGiftDto>> GetGift(int id)
         {
@@ -42,16 +50,19 @@ namespace ChineseRaffleApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetGiftDto>>> GetAllGifts()
+        public async Task<ActionResult<PagedResult<GetGiftDto>>> GetAllGifts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var gifts = await _giftService.GetAllGiftsAsync();
-                return Ok(gifts);
+                if (pageNumber < 1) pageNumber = 1;
+                if (pageSize < 1) pageSize = 10;
+
+                var result = await _giftService.GetAllGiftsAsync(pageNumber, pageSize);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while fetching all gifts");
+                _logger.LogError(ex, "Error occurred while fetching paged gifts");
                 return StatusCode(500, new { message = "An error occurred while retrieving gifts." });
             }
         }

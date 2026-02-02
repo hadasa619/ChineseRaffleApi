@@ -1,5 +1,6 @@
 ﻿using ChineseRaffleApi.Dto;
 using ChineseRaffleApi.Models;
+using ChineseRaffleApi.Services;
 using ChineseRaffleApi.Services.DI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,12 +14,14 @@ namespace ChineseRaffleApi.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketService _basketService;
+        private readonly IGiftService _giftService;
         private readonly ILogger<BasketController> _logger;
 
-        public BasketController(IBasketService basketService, ILogger<BasketController> logger)
+        public BasketController(IBasketService basketService, ILogger<BasketController> logger, IGiftService giftService)
         {
             _basketService = basketService;
             _logger = logger;
+            _giftService = giftService;
         }
 
 
@@ -59,6 +62,10 @@ namespace ChineseRaffleApi.Controllers
         {
             try
             {
+                if (await _giftService.IsRaffleLocked())
+                {
+                    return BadRequest("ההגרלה כבר התקיימה, לא ניתן להוסיף מוצרים לסל.");
+                }
                 int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                                            ?? throw new Exception("User ID not found in token"));
 
@@ -141,6 +148,10 @@ namespace ChineseRaffleApi.Controllers
         {
             try
             {
+                if (await _giftService.IsRaffleLocked())
+                {
+                    return BadRequest("ההגרלה כבר התקיימה, לא ניתן לרכוש כרטיסים .");
+                }
                 int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("User ID not found in token"));
 
                 await _basketService.BuyTicketsFromBasket(userId);

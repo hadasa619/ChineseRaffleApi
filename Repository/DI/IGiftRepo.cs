@@ -6,7 +6,7 @@ namespace ChineseRaffleApi.Repository.DI
     public interface IGiftRepo
     {
         Task<Gift?> GetGiftByIdAsync(int id);
-        Task<IEnumerable<Gift>> GetAllGiftsAsync();
+        Task<PagedResult<Gift>> GetAllGiftsAsync(int pageNumber, int pageSize);
         Task AddGiftAsync(Gift gift);
         Task<bool> UpdateGiftAsync(int id,Gift gift);
         Task<bool> DeleteGiftAsync(int id);
@@ -15,7 +15,7 @@ namespace ChineseRaffleApi.Repository.DI
         Task<Gift?> GetGiftByTitleAsync(string title);
         Task<IEnumerable<Gift>> GetGiftsWithTicketsAsync();
         Task<IEnumerable<Gift>> GetGiftsWithBuyersAsync();
-
+        Task<bool> IsRaffleLocked();
 
         Task<IEnumerable<Gift>> GetGiftsWithMaxPriceAsync();
         Task<IEnumerable<Gift>> GetGiftsWithMaxTicketsAsync();

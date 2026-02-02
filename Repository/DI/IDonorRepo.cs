@@ -8,6 +8,7 @@ namespace ChineseRaffleApi.Repository.DI
         Task<IEnumerable<Donor>> GetAllDonorsAsync();
         Task<int> AddDonorAsync(Donor donor);
         Task<bool> UpdateDonorAsync(int id, Donor donor);
+        Task<(IEnumerable<Donor> Items, int TotalCount)> GetPagedDonorsAsync(int pageNumber, int pageSize);
         Task<bool> DeleteDonorAsync(int id);
         Task<bool> DonorExistsAsync(string name);
         Task<IEnumerable<Donor>> GetDonorByNameAsync(string name);

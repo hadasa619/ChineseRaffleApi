@@ -1,5 +1,6 @@
 ﻿using ChineseRaffleApi.Data;
 using ChineseRaffleApi.Dto;
+using ChineseRaffleApi.Helpers;
 using ChineseRaffleApi.Models;
 using ChineseRaffleApi.Repository.DI;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,23 @@ namespace ChineseRaffleApi.Repository
         {
             _context = context;
         }
+
+        public async Task<bool> IsRaffleLocked()
+        {
+            return await _context.Gifts.AnyAsync(g => g.WinnerId != null);
+        }
         public async Task<Gift?> GetGiftByIdAsync(int id)
         {
             return await _context.Gifts.Include(g => g.Donor).FirstOrDefaultAsync(g => g.Id == id);
 
         }
 
-        public async Task<IEnumerable<Gift>> GetAllGiftsAsync()
+        public async Task<PagedResult<Gift>> GetAllGiftsAsync(int pageNumber, int pageSize)
         {
-            return await _context.Gifts.Include(g => g.Donor).ToListAsync();
+            return await _context.Gifts
+                .Include(g => g.Donor)
+                .OrderBy(g => g.Id) 
+                .ToPagedResultAsync(pageNumber, pageSize);
         }
 
         public async Task AddGiftAsync(Gift gift)

@@ -40,20 +40,19 @@ namespace ChineseRaffleApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetDonorDto>>> GetAllDonors()
+        public async Task<ActionResult<PagedResult<GetDonorDto>>> GetAllDonors([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var donors = await _donorService.GetAllDonorsAsync();
-                return Ok(donors);
+                var result = await _donorService.GetPagedDonorsAsync(pageNumber, pageSize);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving all donors");
+                _logger.LogError(ex, "Error retrieving donors");
                 return StatusCode(500, ex.Message);
             }
         }
-
         [HttpPost]
         public async Task<ActionResult> AddDonor([FromBody] AddDonorDto donor)
         {

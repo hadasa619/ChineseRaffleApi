@@ -81,10 +81,18 @@ namespace ChineseRaffleApi.Services
                 await _donorRepo.UpdateDonorAsync(id, existingDonor);
             }
         }
+        public async Task<PagedResult<GetDonorDto>> GetPagedDonorsAsync(int pageNumber, int pageSize)
+        {
+            var (items, totalCount) = await _donorRepo.GetPagedDonorsAsync(pageNumber, pageSize);
+            var dtos = _mapper.Map<IEnumerable<GetDonorDto>>(items);
 
-        //Task<IEnumerable<Donor>> IDonorService.GetDonorByGiftAsync(int giftId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return new PagedResult<GetDonorDto>
+            {
+                Items = dtos,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
     }
 }

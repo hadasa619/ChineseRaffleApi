@@ -7,7 +7,7 @@ namespace ChineseRaffleApi.Services.DI
     public interface IGiftService
     {
         Task<GetGiftDto?> GetGiftByIdAsync(int id);
-        Task<IEnumerable<GetGiftDto>> GetAllGiftsAsync();
+        Task<PagedResult<GetGiftDto>> GetAllGiftsAsync(int pageNumber, int pageSize);
         Task<int> AddGiftAsync(AddGiftDto gift);
         Task<bool> UpdateGiftAsync(int id, UpdateGiftDto gift);
         Task<bool> DeleteGiftAsync(int id);
@@ -20,6 +20,7 @@ namespace ChineseRaffleApi.Services.DI
         Task<IEnumerable<GetGiftWithBuyersDto>> GetGiftsWithBuyersAsync();
         Task<IEnumerable<GetGiftDto>> GetSortedGiftsByPriceAsync();
         Task<IEnumerable<GetGiftDto>> GetSortedGiftsByCategoryAsync();
+        Task<bool> IsRaffleLocked();
 
 
     }

@@ -44,6 +44,20 @@ namespace ChineseRaffleApi.Repository
         {
            return await _context.Donors.Include(donor => donor.GiftList).ToListAsync();               
         }
+        public async Task<(IEnumerable<Donor> Items, int TotalCount)> GetPagedDonorsAsync(int pageNumber, int pageSize)
+        {
+            var query = _context.Donors.Include(d => d.GiftList).AsNoTracking();
+
+            int totalCount = await query.CountAsync();
+            var items = await query
+                .OrderBy(d => d.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (items, totalCount);
+        }
+
 
         public async Task<IEnumerable<Donor>> GetDonorByEmailAsync(string email)
         {
