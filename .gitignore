@@ -1,11 +1,12 @@
-bin/
-
-obj/
-
-node_modules/
+[Bb]in/
+[Oo]bj/
 
 .vs/
+*.user
+*.userosscache
+*.sln.docstates
 
-.env
+*.log
+TestResults/
 
 appsettings.Development.json

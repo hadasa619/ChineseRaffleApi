@@ -1,0 +1,18 @@
+2026-02-07 20:28:34.410 +02:00 [INF] Generated JWT token for user 11
+2026-02-07 20:28:34.552 +02:00 [INF] User 11 authenticated successfully
+2026-02-07 20:48:05.602 +02:00 [INF] Generated JWT token for user 9
+2026-02-07 20:48:05.610 +02:00 [INF] User 9 authenticated successfully
+2026-02-07 22:17:24.534 +02:00 [INF] Generated JWT token for user 11
+2026-02-07 22:17:24.542 +02:00 [INF] User 11 authenticated successfully
+2026-02-07 22:29:17.257 +02:00 [INF] Generated JWT token for user 9
+2026-02-07 22:29:17.263 +02:00 [INF] User 9 authenticated successfully
+2026-02-07 22:35:26.050 +02:00 [INF] Generated JWT token for user 9
+2026-02-07 22:35:26.056 +02:00 [INF] User 9 authenticated successfully
+2026-02-07 22:35:43.395 +02:00 [INF] Generated JWT token for user 9
+2026-02-07 22:35:43.405 +02:00 [INF] User 9 authenticated successfully
+2026-02-07 22:37:52.776 +02:00 [INF] Generated JWT token for user 9
+2026-02-07 22:37:52.781 +02:00 [INF] User 9 authenticated successfully
+2026-02-07 22:41:03.759 +02:00 [INF] Generated JWT token for user 9
+2026-02-07 22:41:03.767 +02:00 [INF] User 9 authenticated successfully
+2026-02-07 22:43:53.050 +02:00 [INF] Generated JWT token for user 11
+2026-02-07 22:43:53.059 +02:00 [INF] User 11 authenticated successfully
