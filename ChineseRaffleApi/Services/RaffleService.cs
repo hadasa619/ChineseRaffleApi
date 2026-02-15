@@ -36,8 +36,7 @@ namespace ChineseRaffleApi.Services
                     var winningTicket = tickets[winningIndex];
                     var winner = await _userRepo.GetUserByIdAsync(winningTicket.UserId);
 
-                    winners.Add($"Gift: {gift.Title}, WinnerId: {winningTicket.UserId}, WinnerName: {winner.UserName}");
-
+                    winners.Add($"Gift: {gift.Title}, WinnerId: {winningTicket?.UserId}, WinnerName: {winner?.UserName ?? "Unknown"}");
                     await _giftRepo.UpdateGiftAsync(gift.Id, new Gift()
                     {
                         Title = gift.Title,
@@ -59,8 +58,8 @@ namespace ChineseRaffleApi.Services
                         {
                             System.Diagnostics.Debug.WriteLine($"❌ EMAIL ERROR: {ex.Message}");
                             if (ex.InnerException != null)
-                              
-                           System.Diagnostics.Debug.WriteLine($"Inner: {ex.InnerException.Message}");
+
+                                System.Diagnostics.Debug.WriteLine($"Inner: {ex.InnerException.Message}");
                         }
                     });
                 }

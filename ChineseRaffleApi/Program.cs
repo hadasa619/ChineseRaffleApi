@@ -122,7 +122,7 @@ builder.Services.AddAuthentication(options =>
         {
             context.Response.StatusCode = 403;
             context.Response.ContentType = "application/json";
-            var result = System.Text.Json.JsonSerializer.Serialize(new { message = "Forbidden – you do not have the required permissions" });
+            var result = System.Text.Json.JsonSerializer.Serialize(new { message = "Forbidden ï¿½ you do not have the required permissions" });
             return context.Response.WriteAsync(result);
         }
     };
@@ -133,7 +133,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "http://your-development-site.com", "http://localhost:60607")
+        policy.WithOrigins("http://localhost:4200", "http://localhost:60607")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

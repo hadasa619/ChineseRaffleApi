@@ -56,7 +56,7 @@ namespace ChineseRaffleApi.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<ActionResult> AddBasket(AddBasketDto basket)
         {
@@ -64,7 +64,7 @@ namespace ChineseRaffleApi.Controllers
             {
                 if (await _giftService.IsRaffleLocked())
                 {
-                    return BadRequest("ההגרלה כבר התקיימה, לא ניתן להוסיף מוצרים לסל.");
+                    return BadRequest("Raffle is locked, cannot add a basket.");
                 }
                 int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                                            ?? throw new Exception("User ID not found in token"));
@@ -88,7 +88,7 @@ namespace ChineseRaffleApi.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBasket(int id, UpdateBasketDto basket)
         {
@@ -112,7 +112,7 @@ namespace ChineseRaffleApi.Controllers
             }
 
         }
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteBasket(int id)
         {
@@ -142,7 +142,7 @@ namespace ChineseRaffleApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpPost("buy")]
         public async Task<ActionResult> BuyTicketsFromBasket()
         {
@@ -150,7 +150,7 @@ namespace ChineseRaffleApi.Controllers
             {
                 if (await _giftService.IsRaffleLocked())
                 {
-                    return BadRequest("ההגרלה כבר התקיימה, לא ניתן לרכוש כרטיסים .");
+                    return BadRequest("Raffle is locked, cannot buy tickets.");
                 }
                 int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("User ID not found in token"));
 

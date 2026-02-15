@@ -33,7 +33,6 @@ namespace ChineseRaffleApi.Repository
             }
             catch (DbUpdateException ex)
             {
-                // כאן תראי את השגיאה האמיתית מה-SQL Server
                 var innerException = ex.InnerException?.Message;
                 throw new Exception(innerException);
             }

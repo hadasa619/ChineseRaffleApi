@@ -37,7 +37,7 @@ namespace ChineseRaffleApi.Services
 
             User newUser = new User()
             {
-                UserName = user.UserName,
+                UserName = trimmedUserName,
                 Email = user.Email,
                 PasswordHash = HashPassword(user.Password),
                 PhoneNumber = user.PhoneNumber,

@@ -34,15 +34,5 @@ namespace ChineseRaffleApi.Data
 
         }
 
-
-
-
-        //public static MyContext CreateContext()
-        //{
-        //    var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
-        //    optionsBuilder.UseSqlServer(ConnectionString);
-        //    return new MyContext(optionsBuilder.Options);
-        //}
-
     }
 }

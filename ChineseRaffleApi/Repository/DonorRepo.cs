@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChineseRaffleApi.Repository
 {
-    public class DonorRepo: IDonorRepo
+    public class DonorRepo : IDonorRepo
     {
 
         MyContext _context;
@@ -17,7 +17,7 @@ namespace ChineseRaffleApi.Repository
 
         public async Task<int> AddDonorAsync(Donor donor)
         {
-             _context.Donors.Add(donor);
+            _context.Donors.Add(donor);
             await _context.SaveChangesAsync();
             return donor.Id;
         }
@@ -31,7 +31,7 @@ namespace ChineseRaffleApi.Repository
                 await _context.SaveChangesAsync();
                 return true;
             }
-            return false; 
+            return false;
 
         }
 
@@ -42,7 +42,7 @@ namespace ChineseRaffleApi.Repository
 
         public async Task<IEnumerable<Donor>> GetAllDonorsAsync()
         {
-           return await _context.Donors.Include(donor => donor.GiftList).ToListAsync();               
+            return await _context.Donors.Include(donor => donor.GiftList).ToListAsync();
         }
         public async Task<(IEnumerable<Donor> Items, int TotalCount)> GetPagedDonorsAsync(int pageNumber, int pageSize)
         {
@@ -66,25 +66,23 @@ namespace ChineseRaffleApi.Repository
 
         public async Task<Donor?> GetDonorByGiftAsync(int giftId)
         {
-            
             var gift = await _context.Gifts
-                .Include(g => g.Donor).Include(g => g.Donor.GiftList)
+                .Include(g => g.Donor)
+                .Include(g => g.Donor!.GiftList)
                 .FirstOrDefaultAsync(g => g.Id == giftId);
-            if (gift != null)
-                return gift.Donor;
-            else
-                return null;
+
+            return gift?.Donor;
         }
         public async Task<Donor?> GetDonorByIdAsync(int id)
         {
-            return await _context.Donors.Include(donor => donor.GiftList).FirstAsync(donor => donor.Id==id);        
+            return await _context.Donors.Include(donor => donor.GiftList).FirstAsync(donor => donor.Id == id);
         }
 
         public async Task<IEnumerable<Donor>> GetDonorByNameAsync(string name)
         {
             return await _context.Donors.Where(donor => donor.Name.Contains(name))
                 .Include(donor => donor.GiftList)
-                .ToListAsync();  
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateDonorAsync(int id, Donor updatedDonor)

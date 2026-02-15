@@ -36,7 +36,6 @@ public class RateLimitingMiddleware
         
         lock (clientInfo)
         {
-            // Reset window if time has passed
             if (now - clientInfo.WindowStart > _timeWindow)
             {
                 clientInfo.WindowStart = now;
@@ -55,9 +54,8 @@ public class RateLimitingMiddleware
         {
             _logger.LogWarning("Rate limit exceeded for client: {ClientId}", clientId);
             
-            context.Response.StatusCode = 429; // Too Many Requests
-            context.Response.Headers.Add("Retry-After", _timeWindow.TotalSeconds.ToString());
-            
+            context.Response.StatusCode = 429; 
+            context.Response.Headers.Append("Retry-After", _timeWindow.TotalSeconds.ToString());            
             await context.Response.WriteAsJsonAsync(new
             {
                 message = "Rate limit exceeded. Please try again later.",
@@ -68,20 +66,14 @@ public class RateLimitingMiddleware
             return;
         }
         
-        // Add rate limit headers to response
-        context.Response.Headers.Add("X-Rate-Limit-Limit", _requestLimit.ToString());
-        context.Response.Headers.Add("X-Rate-Limit-Remaining", 
-            Math.Max(0, _requestLimit - clientInfo.RequestCount).ToString());
-        context.Response.Headers.Add("X-Rate-Limit-Reset", 
-            (clientInfo.WindowStart + _timeWindow).ToString("o"));
-        
+        context.Response.Headers["X-Rate-Limit-Limit"] = _requestLimit.ToString();
+        context.Response.Headers["X-Rate-Limit-Remaining"] = Math.Max(0, _requestLimit - clientInfo.RequestCount).ToString();
+        context.Response.Headers["X-Rate-Limit-Reset"] = (clientInfo.WindowStart + _timeWindow).ToString("o");        
         await _next(context);
     }
     
     private string GetClientIdentifier(HttpContext context)
     {
-        // Use IP address as client identifier
-        // In production, you might want to use authenticated user ID
         var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
         return ipAddress;
     }

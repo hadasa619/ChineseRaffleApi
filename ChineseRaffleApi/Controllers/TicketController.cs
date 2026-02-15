@@ -20,7 +20,7 @@ namespace ChineseRaffleApi.Controllers
             _ticketService = ticketService;
             _logger = logger;
         }
-        [Authorize]
+        [Authorize (Roles = "User")]
         [HttpGet("myTickets")]
         public async Task<ActionResult<GetTicketDto>> GetMyTickets()
         {
@@ -66,7 +66,7 @@ namespace ChineseRaffleApi.Controllers
         }
 
 
-        [Authorize]
+        [Authorize (Roles = "User")]
         [HttpPost]
         public async Task<ActionResult> CreateTicket(AddTicketDto ticket)
         {
@@ -92,20 +92,7 @@ namespace ChineseRaffleApi.Controllers
             }
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult> UpdateTicket(int id, Ticket ticket)
-        //{
-        //    if (id != ticket.Id) return BadRequest();
-        //    await _ticketService.UpdateTicketAsync(ticket);
-        //    return NoContent();
-        //}
 
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult> DeleteTicket(int id)
-        //{
-        //    await _ticketService.DeleteTicketAsync(id);
-        //    return NoContent();
-        //}
 
     }
 }

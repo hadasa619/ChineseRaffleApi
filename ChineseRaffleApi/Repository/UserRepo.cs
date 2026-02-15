@@ -49,11 +49,6 @@ namespace ChineseRaffleApi.Repository
             return await _context.Users.FindAsync(id);
         }
 
-        //public async Task UpdateUserAsync(int id, User user)
-        //{
-        //    _context.Users.Update(user);
-        //    await _context.SaveChangesAsync();
-        //}
 
         public async Task<bool> UpdateUserAsync(int id ,User updatedUser)
         {

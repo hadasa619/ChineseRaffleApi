@@ -268,14 +268,14 @@ namespace ChineseRaffleApi.Controllers
                 var gifts = await _giftService.GetGiftsWithMaxPriceAsync();
 
                 if (gifts == null || !gifts.Any())
-                    return NotFound("לא נמצאו מתנות");
+                    return NotFound("No gifts found.");
 
                 return Ok(gifts);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Message}");
-                return StatusCode(500, "אירעה שגיאה בעת שליפת מתנות לפי מחיר");
+                _logger.LogError(ex, "Error occurred while retrieving gifts by price.");
+                return StatusCode(500, "An error occurred while retrieving gifts by price.");
             }
         }
 
@@ -288,14 +288,14 @@ namespace ChineseRaffleApi.Controllers
                 var gifts = await _giftService.GetGiftsWithMaxTicketsAsync();
 
                 if (gifts == null || !gifts.Any())
-                    return NotFound("לא נמצאו מתנות");
+                    return NotFound("No gifts found.");
 
                 return Ok(gifts);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Message}");
-                return StatusCode(500, "אירעה שגיאה בעת שליפת מתנות לפי מספר כרטיסים");
+                _logger.LogError(ex, "Error occurred while retrieving gifts with max tickets.");
+                return StatusCode(500, "An error occurred while retrieving gifts with max tickets.");
             }
         }
 
@@ -308,13 +308,14 @@ namespace ChineseRaffleApi.Controllers
                 var gifts = await _giftService.GetGiftsWithBuyersAsync();
 
                 if (gifts == null || !gifts.Any())
-                    return NotFound("לא נמצאו מתנות");
+                    return NotFound("No gifts found.");
 
                 return Ok(gifts);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "אירעה שגיאה בעת שליפת מתנות עם הרוכשים");
+                _logger.LogError(ex, "Error occurred while retrieving gifts with buyers.");
+                return StatusCode(500, "An error occurred while retrieving gifts with buyers.");
             }
         }
     }

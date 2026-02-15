@@ -50,18 +50,26 @@ namespace ChineseRaffleApi.Services
         public async Task<int> AddGiftAsync(AddGiftDto gift)
         {
             var trimmedTitle = gift.Title?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(trimmedTitle))
+            {
+                throw new ArgumentException("Gift title is required.");
+            }
+
             if (await _giftRepo.GiftExistsAsync(trimmedTitle))
             {
                 throw new ArgumentException($"Gift title '{trimmedTitle}' is already existing.");
             }
+
             var newGift = new Gift
             {
-                Title = gift.Title,
+                Title = trimmedTitle, 
                 CategoryId = gift.CategoryId,
                 DonorId = gift.DonorId,
                 TicketPrice = gift.TicketPrice,
                 Image = gift.Image,
             };
+
             await _giftRepo.AddGiftAsync(newGift);
             return newGift.Id; 
         }
@@ -76,7 +84,6 @@ namespace ChineseRaffleApi.Services
             if (!string.IsNullOrWhiteSpace(gift.Title))
             {
                 var trimmedTitle = gift.Title.Trim();
-                // If the trimmed title differs from the existing title (case-insensitive), check uniqueness
                 if (!string.Equals(trimmedTitle, existing.Title, System.StringComparison.OrdinalIgnoreCase))
                 {
                     if (await _giftRepo.GiftExistsAsync(trimmedTitle))

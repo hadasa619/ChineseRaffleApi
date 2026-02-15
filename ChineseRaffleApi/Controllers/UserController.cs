@@ -77,7 +77,7 @@ namespace ChineseRaffleApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize]
+        [Authorize ]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto user)
         {

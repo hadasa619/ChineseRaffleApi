@@ -35,10 +35,7 @@ namespace ChineseRaffleApi.Services
             return _mapper.Map<IEnumerable<GetBasketDto>>(basket);
 
         }
-        //public async Task<IEnumerable<Basket>> GetAllBasketsAsync()
-        //{
-        //    return await _basketRepo.GetAllBasketsAsync();
-        //}
+
 
         public async Task<int?> AddBasketAsync(AddBasketDto basketDto)
         {

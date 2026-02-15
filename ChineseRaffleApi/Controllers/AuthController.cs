@@ -20,9 +20,6 @@ namespace ChineseRaffleApi.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// Authenticate user and get JWT token
-        /// </summary>
         [HttpPost("login")]
         [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
